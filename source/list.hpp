@@ -256,8 +256,7 @@ class List {
 
     /* ... */
     std::size_t size() const{
-      // TODO: size-method (Aufgabe 3.2)      
-      return 27;
+      return size_;     // return the size of the list (Aufgabe 3.2)
   };
 
 
