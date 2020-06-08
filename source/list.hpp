@@ -248,9 +248,7 @@ class List {
 
     /* ... */
     bool empty() const {
-
-      // TODO: empty-method (Aufgabe 3.2)
-      return false;
+      return (0 == size_);  // return if the list is empty (Aufgabe 3.2)
     };
 
 
