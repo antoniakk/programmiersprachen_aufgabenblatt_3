@@ -129,7 +129,10 @@ class List {
     // not fully implemented yet
     // TODO: do not forget about the initialiser list! (Aufgabe 3.2)
     /* ... */
-    List() {}
+    List(size_t size, ListNode<T>* first, ListNode<T>* last) : 
+      size_{size},
+      first_{first},
+      last_{last} {}
 
     // test and implement:
     //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
