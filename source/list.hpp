@@ -126,9 +126,13 @@ class List {
     using const_reference = T const&;
     using iterator        = ListIterator<T>;
 
-    // not fully implemented yet
-    // TODO: do not forget about the initialiser list! (Aufgabe 3.2)
-    /* ... */
+    // Default constructor (Aufgabe 3.2)
+    List() : 
+      size_{0},
+      first_{nullptr},
+      last_{nullptr} {}
+
+    // Constructor with an initialiser list 
     List(size_t size, ListNode<T>* first, ListNode<T>* last) : 
       size_{size},
       first_{first},
@@ -205,30 +209,80 @@ class List {
 
     /* ... */
     void push_front(T const& element) {
-      // TODO: push_front-method (Aufgabe 3.3)
+      // implement push_front-method (Aufgabe 3.3)
+     
+      ListNode<T>* new_element = new ListNode<T>{element};
+      if (empty()) {
+        new_element->next = nullptr;
+        last_ = new_element;
+      }
+      else {
+        first_->prev = new_element;
+        new_element->next = first_;
+      }
+      new_element->prev = nullptr;
+      first_ = new_element;
+      ++size_;
     }
 
     /* ... */
     void push_back(T const& element) {
-      // TODO: push_back-method (Aufgabe 3.3)
+      // implement push_back-method (Aufgabe 3.3)
+     
+      ListNode<T>* new_element = new ListNode<T>{element}; 
+      if (empty()) {
+        new_element->prev = nullptr;
+        first_ = new_element;
+      }
+      else {
+        last_->next = new_element;
+        new_element->prev = last_;
+      }      
+      new_element->next = nullptr;      
+      last_ = new_element;
+      ++size_;
     }
 
     /* ... */
-    void pop_front() {
+    void pop_front() {   
+      // implement of pop_front-method (Aufgabe 3.3)
+
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of pop_front-method (Aufgabe 3.3)
+      if (1 == size_) {
+        delete first_;
+        first_ = nullptr;
+        last_ = first_;
+      }
+      else {
+        auto new_first = first_->next;
+        new_first->prev = nullptr;
+        delete first_;
+        first_ = new_first;
+      }
+      --size_;
     }
 
     /* ... */
-    void pop_back() {
+    void pop_back() { 
+      // implement of pop_back-method (Aufgabe 3.3)
+
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of pop_back-method (Aufgabe 3.3)
+      if (1 == size_) {
+        delete first_;
+        first_ = nullptr;
+        last_ = first_;
+      }
+      else {
+      auto new_last = last_->prev;
+      new_last->next = nullptr;
+      delete last_;
+      last_ = new_last;
+      }
+      --size_;
     }
 
     /* ... */
