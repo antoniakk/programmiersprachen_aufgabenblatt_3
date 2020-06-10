@@ -175,6 +175,7 @@ class List {
     /* ... */
     ~List() {
       //TODO: Implement via clear-Method (Aufgabe 3.4)
+      clear();
     } //can not really be tested
 
     /* ... */
@@ -194,7 +195,11 @@ class List {
     /* ... */ 
     // test and implement:
     //TODO: clear()-Method (Aufgabe 3.4)
-
+    void clear() {
+      while(!empty()) {
+        pop_front();
+      }
+    }
 
     /* ... */
     //TODO: member function insert (Aufgabe 3.13)
@@ -245,7 +250,7 @@ class List {
 
     /* ... */
     void pop_front() {   
-      // implement of pop_front-method (Aufgabe 3.3)
+      // implement pop_front-method (Aufgabe 3.3)
 
       if(empty()) {
         throw "List is empty";
@@ -266,7 +271,7 @@ class List {
 
     /* ... */
     void pop_back() { 
-      // implement of pop_back-method (Aufgabe 3.3)
+      // implement pop_back-method (Aufgabe 3.3)
 
       if(empty()) {
         throw "List is empty";
@@ -291,7 +296,7 @@ class List {
         throw "List is empty";
       }
       return first_->value;
-      // TODO: remainder of front-method (Aufgabe 3.3)
+      // Omplement front-method (Aufgabe 3.3)
     }
 
     /* ... */
@@ -300,7 +305,7 @@ class List {
         throw "List is empty";
       }
       return last_->value;
-      // TODO: remainder of back-method (Aufgabe 3.3)
+      // Implement back-method (Aufgabe 3.3)
     }
 
     /* ... */
