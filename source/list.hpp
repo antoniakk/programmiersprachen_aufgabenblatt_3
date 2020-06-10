@@ -126,7 +126,7 @@ class List {
     using const_reference = T const&;
     using iterator        = ListIterator<T>;
 
-    // Default constructor (Aufgabe 3.2)
+    // Default constructor with an initialiser list (Aufgabe 3.2)
     List() : 
       size_{0},
       first_{nullptr},
@@ -138,8 +138,19 @@ class List {
       first_{first},
       last_{last} {}
 
-    // test and implement:
-    //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
+    //implement Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
+    List(List<T> const& list) :
+      size_{0},
+      first_{nullptr},
+      last_{nullptr}  {
+      
+      ListNode<T>* current_element = list.first_;
+    
+      while(current_element != nullptr) {
+        push_back(current_element->value);
+        current_element = current_element->next;
+      }      
+    }
 
     // test and implement:
     // TODO: Move-Konstruktor (Aufgabe 3.9)
@@ -151,12 +162,13 @@ class List {
       //not implemented yet
     }
 
-    // test and implement:
-    //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
-
     /* ... */
     // test and implement:
     //TODO: (unifying) Assignment operator (Aufgabe 3.6)
+
+    List<T>& operator=(List<T> const& rhs) {
+
+    }
 
     /* ... */
     // test and implement:
@@ -174,9 +186,9 @@ class List {
 
     /* ... */
     ~List() {
-      //TODO: Implement via clear-Method (Aufgabe 3.4)
+      // Implement destructor via clear-Method (Aufgabe 3.4)
       clear();
-    } //can not really be tested
+    } //cannot really be tested
 
     /* ... */
     ListIterator<T> begin() {
@@ -193,8 +205,8 @@ class List {
     }
 
     /* ... */ 
-    // test and implement:
-    //TODO: clear()-Method (Aufgabe 3.4)
+
+    //Implement clear()-Method (Aufgabe 3.4)
     void clear() {
       while(!empty()) {
         pop_front();

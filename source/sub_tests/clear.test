@@ -1,6 +1,11 @@
 TEST_CASE("remove all elements in the list", "[clear]") {
     List<int> list{};
 
+    REQUIRE(nullptr == get_first_pointer(list));
+    REQUIRE(nullptr == get_last_pointer(list));
+    REQUIRE(list.empty());
+
+
     list.push_back(4);
     list.push_back(-6);
     list.push_back(32);

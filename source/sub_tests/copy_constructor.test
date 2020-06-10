@@ -1,0 +1,17 @@
+TEST_CASE("create a copy of a given list", "[copy-constructor]") {
+    List<int> original_list{};
+
+    original_list.push_back(12);
+    original_list.push_back(-7);
+    original_list.push_back(11);
+
+    List<int> copy_list{original_list};
+
+    REQUIRE(nullptr == get_first_pointer(copy_list)->prev);
+    REQUIRE(12 == get_first_pointer(copy_list)->value);
+    REQUIRE(-7 == get_first_pointer(copy_list)->next->value);
+    REQUIRE(-7 == get_last_pointer(copy_list)->prev->value);
+    REQUIRE(11 == get_last_pointer(copy_list)->value);
+    REQUIRE(nullptr == get_last_pointer(copy_list)->next); 
+
+}

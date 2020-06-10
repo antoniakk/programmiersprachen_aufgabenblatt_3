@@ -32,8 +32,12 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 #include "sub_tests/front.test"
 #include "sub_tests/back.test"
 
-//test the method clear
+//test cases for method clear
 #include "sub_tests/clear.test"
+
+//test cases for (deep) copy-constructor
+#include "sub_tests/copy_constructor.test"
+
 /*
 //test cases for retrieving iterators
 #include "sub_tests/begin.test"
