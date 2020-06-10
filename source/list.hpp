@@ -290,7 +290,7 @@ class List {
       if(empty()) {
         throw "List is empty";
       }
-
+      return first_->value;
       // TODO: remainder of front-method (Aufgabe 3.3)
     }
 
@@ -299,7 +299,7 @@ class List {
       if(empty()) {
         throw "List is empty";
       }
-
+      return last_->value;
       // TODO: remainder of back-method (Aufgabe 3.3)
     }
 
