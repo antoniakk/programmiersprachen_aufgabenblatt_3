@@ -118,6 +118,7 @@ class List {
     friend ListNode<TEST_TYPE>* get_first_pointer(List<TEST_TYPE> const& list_to_test);
     template <typename TEST_TYPE>
     friend ListNode<TEST_TYPE>* get_last_pointer(List<TEST_TYPE> const& list_to_test);
+    void swap(List<T>& rhs);
 
     using value_type      = T;
     using pointer         = T*;
@@ -166,8 +167,9 @@ class List {
     // test and implement:
     //TODO: (unifying) Assignment operator (Aufgabe 3.6)
 
-    List<T>& operator=(List<T> const& rhs) {
-
+    List<T>& operator=(List<T> rhs) {
+      swap(rhs);
+      return *this;
     }
 
     /* ... */
@@ -205,7 +207,6 @@ class List {
     }
 
     /* ... */ 
-
     //Implement clear()-Method (Aufgabe 3.4)
     void clear() {
       while(!empty()) {
@@ -220,8 +221,10 @@ class List {
     //TODO: member function insert (Aufgabe 3.14)
 
     /* ... */
-
     //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
+    void reverse() {
+
+    }
 
 
     /* ... */
@@ -327,9 +330,17 @@ class List {
 
 
     /* ... */
-    std::size_t size() const{
+    std::size_t size() const {
       return size_;     // return the size of the list (Aufgabe 3.2)
-  };
+    };
+
+
+    /* ... */
+    void swap(List<T>& rhs) {
+      std::swap(first_, rhs.first_);
+      std::swap(last_, rhs.last_);
+    };
+
 
 
   // list members
