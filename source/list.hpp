@@ -118,7 +118,6 @@ class List {
     friend ListNode<TEST_TYPE>* get_first_pointer(List<TEST_TYPE> const& list_to_test);
     template <typename TEST_TYPE>
     friend ListNode<TEST_TYPE>* get_last_pointer(List<TEST_TYPE> const& list_to_test);
-  //  void swap(List<T>& rhs);
 
     using value_type      = T;
     using pointer         = T*;
@@ -223,13 +222,16 @@ class List {
     /* ... */
     //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
     void reverse() {
+      if(0 == size_) {
+        throw "List is empty!";
+      }
       auto current_element = first_;
       while(current_element != nullptr) {
         auto curr_next = current_element->next;
-        current_element->next = current_element->prev;
-        current_element->prev = curr_next;
+        swap(current_element->next, current_element->prev);
         current_element = curr_next;
-      }
+      } 
+      swap(first_, last_);
     }
 
 
@@ -348,7 +350,12 @@ class List {
       std::swap(last_, rhs.last_);
     };
 
-
+    /* ... */
+    void swap(ListNode<T>*& node1, ListNode<T>*& node2) {
+      auto tmp = node1;
+      node1 = node2;
+      node2 = tmp;
+    }
 
   // list members
   private: 
@@ -358,8 +365,14 @@ class List {
 };
 
 /* ... */
-//TODO: Freie Funktion reverse 
+//Freie Funktion reverse 
 //(Aufgabe 3.7 - Teil 2, benutzt Member-Funktion reverse)
+template <typename T>
+List<T> reverse(List<T> const& list) {
+  auto reversed_list{list};
+  reversed_list.reverse();
+  return reversed_list;
+}
 
 /* ... */
 //TODO: Freie Funktion operator+ (3.10 - Teil 2)

@@ -1,0 +1,33 @@
+TEST_CASE("reverse memeber function", "[list_reverse]") {
+    List<int> list{};
+
+    list.push_back(12);
+    list.push_back(-7);
+    list.push_back(11);
+
+    list.reverse();
+
+    REQUIRE(12 == get_last_pointer(list)->value);
+    REQUIRE(11 == get_first_pointer(list)->value);    
+    REQUIRE(-7 == get_first_pointer(list)->next->value); 
+    REQUIRE(-7 == get_last_pointer(list)->prev->value);
+    REQUIRE(nullptr == get_first_pointer(list)->prev);
+    REQUIRE(nullptr == get_last_pointer(list)->next);
+}
+
+TEST_CASE("reverse free function", "[list_reverse]") {
+    List<int> list{};
+
+    list.push_back(12);
+    list.push_back(-7);
+    list.push_back(11);
+
+    List<int> reversed_list = reverse(list);
+
+    REQUIRE(12 == get_last_pointer(reversed_list)->value);
+    REQUIRE(11 == get_first_pointer(reversed_list)->value);    
+    REQUIRE(-7 == get_first_pointer(reversed_list)->next->value); 
+    REQUIRE(-7 == get_last_pointer(reversed_list)->prev->value);
+    REQUIRE(nullptr == get_first_pointer(reversed_list)->prev);
+    REQUIRE(nullptr == get_last_pointer(reversed_list)->next);
+}
