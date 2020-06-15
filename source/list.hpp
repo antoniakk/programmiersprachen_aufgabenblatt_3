@@ -118,7 +118,7 @@ class List {
     friend ListNode<TEST_TYPE>* get_first_pointer(List<TEST_TYPE> const& list_to_test);
     template <typename TEST_TYPE>
     friend ListNode<TEST_TYPE>* get_last_pointer(List<TEST_TYPE> const& list_to_test);
-    void swap(List<T>& rhs);
+  //  void swap(List<T>& rhs);
 
     using value_type      = T;
     using pointer         = T*;
@@ -223,7 +223,13 @@ class List {
     /* ... */
     //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
     void reverse() {
-
+      auto current_element = first_;
+      while(current_element != nullptr) {
+        auto curr_next = current_element->next;
+        current_element->next = current_element->prev;
+        current_element->prev = curr_next;
+        current_element = curr_next;
+      }
     }
 
 
@@ -336,6 +342,7 @@ class List {
 
 
     /* ... */
+    // implement auxiliary swap() overloaded function
     void swap(List<T>& rhs) {
       std::swap(first_, rhs.first_);
       std::swap(last_, rhs.last_);
