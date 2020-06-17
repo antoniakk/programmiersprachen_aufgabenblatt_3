@@ -38,7 +38,7 @@ struct ListIterator {
 
     //TODO: remaining implementation of derefenciation of 
     //      iterator using operator* (Aufgabe 3.12 - Teil 1)
-
+    return node->value;
   } //call *it
 
   /* DESCRIPTION  operator->() */
@@ -46,9 +46,9 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //TODO: remaining implementation of derefenciation of 
+    //      remaining implementation of derefenciation of 
     //      iterator using operator-> (Aufgabe 3.12 - Teil 2)
+    return &(node->value);
   }  //call it->method() or it->member
 
 
@@ -60,7 +60,8 @@ struct ListIterator {
 
     //TODO: Implement Postincrement-Operation for Iterator
     //      (Aufgabe 3.12 - Teil 3)
-    
+    node = node->next;
+    return *this;    
   }
 
   /* POSTINCREMENT (signature distinguishes the iterators), 
@@ -72,9 +73,10 @@ struct ListIterator {
 
     //TODO: Implement Postincrement-Operation for Iterator
     //      (Aufgabe 3.12 - Teil 4)
-
+    auto tmp = *this;
+    ++(*this);
+    return tmp;  
   }
-
 
   /* ... */
   bool operator==(ListIterator<T> const& x) const {
@@ -205,6 +207,15 @@ class List {
       clear();
     } //cannot really be tested
 
+    /* print() member function to help with testing the other tasks*/
+    void print() const {
+      auto tmp = first_;
+      while (tmp != nullptr) {
+        std::cout << tmp->value << " ";
+        tmp = tmp->next;
+      }
+    }
+
     /* ... */
     ListIterator<T> begin() {
       //TODO: begin-Method returning an Iterator to the 
@@ -229,6 +240,19 @@ class List {
 
     /* ... */
     //TODO: member function insert (Aufgabe 3.13)
+    ListIterator<T> insert(ListIterator<T> position, T const& new_element) {
+      if (position == begin()) {
+        push_front(new_element);
+        return begin();
+      }
+      else {
+        ListNode<T>* new_node = new ListNode<T>{new_element, position.node->prev, position.node};
+        position.node->prev->next = new_node;
+        position.node->prev = new_node;
+        ++size_;
+        return ListIterator<T>{new_node};
+      }
+    }
 
     /* ... */
     //TODO: member function insert (Aufgabe 3.14)
@@ -365,6 +389,7 @@ class List {
     };
 
     /* ... */
+    // TODO: delete this and use std::swap instead
     void swap(ListNode<T>*& node1, ListNode<T>*& node2) {
       auto tmp = node1;
       node1 = node2;

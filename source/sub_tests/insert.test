@@ -1,0 +1,13 @@
+TEST_CASE("insert a new node at given position", "[list_insert]") {
+    List<int> list{};
+
+    list.push_back(12);
+    list.push_back(-7);
+    list.push_back(11);
+
+    list.insert(list.begin(), 18);
+    list.insert(++(++(list.begin())), 22);
+
+    REQUIRE(get_first_pointer(list)->value == 18);
+    REQUIRE((++(++(list.begin()))).node->value == 22);
+}
