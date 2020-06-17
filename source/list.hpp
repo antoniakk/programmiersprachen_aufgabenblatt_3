@@ -78,18 +78,17 @@ struct ListIterator {
 
   /* ... */
   bool operator==(ListIterator<T> const& x) const {
-    //TODO: Implement Equality-Operation for Iterator
+    // implement Equality-Operation for Iterator
     //      (Aufgabe 3.12 - Teil 5)
     // Iterators should be the same if they refer to the same node
-    return false;
+    return (node == x.node);
   } // call it: == it
 
   /* ... */
   bool operator!=(ListIterator<T> const& x) const {
-    //TODO: Implement Inequality-Operation for Iterator  
+    //  implement Inequality-Operation for Iterator  
     //      (Aufgabe 3.12 - Teil 6)
-    // Reuse operator==
-    return false;
+    return !(*this == x);
   } // call it: != it
 
   /* Advances Iterator */
