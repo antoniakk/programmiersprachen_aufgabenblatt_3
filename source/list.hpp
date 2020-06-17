@@ -153,7 +153,7 @@ class List {
     }
 
     // test and implement:
-    // TODO: Move-Konstruktor (Aufgabe 3.9)
+    // TODO: Move-Konstruktor (Aufgabe 3.?)
 
     //TODO: Initializer-List Konstruktor (3.10 - Teil 1)
     /* ... */
@@ -164,7 +164,7 @@ class List {
 
     /* ... */
     // test and implement:
-    //TODO: (unifying) Assignment operator (Aufgabe 3.6)
+    //(unifying) Assignment operator (Aufgabe 3.6)
 
     List<T>& operator=(List<T> rhs) {
       swap(rhs);
@@ -174,15 +174,30 @@ class List {
     /* ... */
     // test and implement:
 
-    bool operator==(List const& rhs)
+    bool operator==(List<T> const& rhs)
     {
-      //TODO: operator== (Aufgabe 3.8)
+      //overload operator== (Aufgabe 3.8)
+      if (size_ != rhs.size_) {
+        return false;
+      }
+      else {
+        auto curr_rhs = rhs.first_;
+        auto curr_lhs = first_;
+        while (curr_rhs != nullptr) {
+          if (curr_lhs->value != curr_rhs->value) {
+            return false;
+          }
+          curr_rhs = curr_lhs->next;
+          curr_lhs = curr_lhs->next;
+        }
+      }
+      return true;
     }
 
-    bool operator!=(List const& rhs)
+    bool operator!=(List<T> const& rhs)
     {
-      //TODO: operator!= (Aufgabe 3.8)
-      // make use of operator==
+      //overload operator!= (Aufgabe 3.8)
+      return !(*this == rhs);
     }
 
     /* ... */
@@ -194,15 +209,15 @@ class List {
     /* ... */
     ListIterator<T> begin() {
       //TODO: begin-Method returning an Iterator to the 
-      //      first element in the List (Aufgabe 3.11)
-      return {};
+      //      first element in the List (Aufgabe 3.9)
+      return ListIterator<T>{first_};
     }
 
     /* ... */
     ListIterator<T> end() {
       //TODO: end-Method returning an Iterator to element after (!) 
-      //      the last element in the List (Aufgabe 3.11)
-      return {};
+      //      the last element in the List (Aufgabe 3.9)
+      return ListIterator<T>{};
     }
 
     /* ... */ 
@@ -220,7 +235,7 @@ class List {
     //TODO: member function insert (Aufgabe 3.14)
 
     /* ... */
-    //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
+    //implement member function reverse (Aufgabe 3.7 - Teil 1)
     void reverse() {
       if(0 == size_) {
         throw "List is empty!";
