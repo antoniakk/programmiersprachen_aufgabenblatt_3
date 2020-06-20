@@ -58,6 +58,10 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 //insert tests
 #include "sub_tests/insert.test"
 
+//erase tests
+#include "sub_tests/erase.test"
+
+
 int main(int argc, char *argv[])
 {
   return Catch::Session().run(argc, argv);

@@ -214,6 +214,7 @@ class List {
         std::cout << tmp->value << " ";
         tmp = tmp->next;
       }
+      std::cout << "\n";
     }
 
     /* ... */
@@ -239,7 +240,7 @@ class List {
     }
 
     /* ... */
-    //TODO: member function insert (Aufgabe 3.13)
+    //implement member function insert (Aufgabe 3.11)
     ListIterator<T> insert(ListIterator<T> position, T const& new_element) {
       if (position == begin()) {
         push_front(new_element);
@@ -255,7 +256,26 @@ class List {
     }
 
     /* ... */
-    //TODO: member function insert (Aufgabe 3.14)
+    //implement member function erase (Aufgabe 3.12)
+    ListIterator<T> erase(ListIterator<T> position) {
+      auto next_element = position.node->next;
+      if (begin() == position) {
+        pop_front();
+        return begin();
+      }
+      else if (nullptr == next_element) {
+        pop_back();
+        return end();
+      }
+      else {
+        position.node->prev->next = next_element;
+        next_element->prev = position.node->prev;
+        delete position.node;
+        position.node = nullptr;
+        --size_;
+        return ListIterator<T>{next_element};
+      }
+    }
 
     /* ... */
     //implement member function reverse (Aufgabe 3.7 - Teil 1)
