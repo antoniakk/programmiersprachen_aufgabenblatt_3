@@ -64,6 +64,9 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 //test has_same_content method for list and vector
 #include "sub_tests/has_same_content.test"
 
+//test the move_constructor
+#include "sub_tests/move_constructor.test"
+
 
 int main(int argc, char *argv[])
 {

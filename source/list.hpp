@@ -119,6 +119,7 @@ class List {
     friend ListNode<TEST_TYPE>* get_first_pointer(List<TEST_TYPE> const& list_to_test);
     template <typename TEST_TYPE>
     friend ListNode<TEST_TYPE>* get_last_pointer(List<TEST_TYPE> const& list_to_test);
+    //TODO: I think you have to add definition of some method here
 
     using value_type      = T;
     using pointer         = T*;
@@ -133,7 +134,7 @@ class List {
       first_{nullptr},
       last_{nullptr} {}
 
-    // Constructor with an initialiser list 
+    // TODO: delete this -> Constructor with an initialiser list 
     List(size_t size, ListNode<T>* first, ListNode<T>* last) : 
       size_{size},
       first_{first},
@@ -145,18 +146,26 @@ class List {
       first_{nullptr},
       last_{nullptr}  {
       
-      ListNode<T>* current_element = list.first_;
-    
-      while(current_element != nullptr) {
-        push_back(current_element->value);
-        current_element = current_element->next;
-      }      
+        ListNode<T>* current_element = list.first_;
+        while(current_element != nullptr) {
+          push_back(current_element->value);
+          current_element = current_element->next;
+        }      
     }
 
     // test and implement:
-    // TODO: Move-Konstruktor (Aufgabe 3.14)
+    // Move-Konstruktor (Aufgabe 3.14)
+    List(List<T>&& rhs) : 
+      first_(rhs.first_), 
+      last_(rhs.last_),
+      size_(rhs.size_) {
 
-    //TODO: Initializer-List Konstruktor (3.10 - Teil 1)
+        rhs.first_ = nullptr;
+        rhs.last_  = nullptr;
+        rhs.size_  = 0;
+    }
+
+    //TODO: Initializer-List Konstruktor (3.15 - Teil 1)
     /* ... */
     // test and implement:
     List(std::initializer_list<T> ini_list) {

@@ -1,0 +1,16 @@
+TEST_CASE("move  constructor", "[constructor]") {
+    List <int> list;
+    list.push_front(1);
+    list.push_front(2);
+    list.push_front(3);
+    list.push_front(4);
+    List<int> list2{std::move(list)};
+    
+    REQUIRE(0 == list.size());
+    REQUIRE(list.empty());
+    REQUIRE(4 ==  list2.size());
+    REQUIRE(4 == get_first_pointer(list2)->value);
+    REQUIRE(3 == get_first_pointer(list2)->next->value);
+    REQUIRE(2 == get_last_pointer(list2)->prev->value);
+    REQUIRE(1 == get_last_pointer(list2)->value);
+    }
