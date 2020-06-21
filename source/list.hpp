@@ -18,7 +18,7 @@ struct ListNode {
 };
 
 
-//TODO: Implementierung der Methoden des Iterators 
+//      Implementierung der Methoden des Iterators 
 //      (nach Vorlesung STL-1 am 09. Juni) (Aufgabe 3.12)
 template <typename T>
 struct ListIterator {
@@ -36,7 +36,7 @@ struct ListIterator {
       throw "Iterator does not point to valid node";
     }
 
-    //TODO: remaining implementation of derefenciation of 
+    //      remaining implementation of derefenciation of 
     //      iterator using operator* (Aufgabe 3.12 - Teil 1)
     return node->value;
   } //call *it
@@ -58,7 +58,7 @@ struct ListIterator {
       throw "Iterator does not point to valid node";
     }
 
-    //TODO: Implement Postincrement-Operation for Iterator
+    //      implement Postincrement-Operation for Iterator
     //      (Aufgabe 3.12 - Teil 3)
     node = node->next;
     return *this;    
@@ -71,7 +71,7 @@ struct ListIterator {
       throw "Iterator does not point to valid node";
     }
 
-    //TODO: Implement Postincrement-Operation for Iterator
+    //      implement Postincrement-Operation for Iterator
     //      (Aufgabe 3.12 - Teil 4)
     auto tmp = *this;
     ++(*this);
@@ -154,7 +154,7 @@ class List {
     }
 
     // test and implement:
-    // TODO: Move-Konstruktor (Aufgabe 3.?)
+    // TODO: Move-Konstruktor (Aufgabe 3.14)
 
     //TODO: Initializer-List Konstruktor (3.10 - Teil 1)
     /* ... */
@@ -219,14 +219,14 @@ class List {
 
     /* ... */
     ListIterator<T> begin() {
-      //TODO: begin-Method returning an Iterator to the 
+      //      begin-Method returning an Iterator to the 
       //      first element in the List (Aufgabe 3.9)
       return ListIterator<T>{first_};
     }
 
     /* ... */
     ListIterator<T> end() {
-      //TODO: end-Method returning an Iterator to element after (!) 
+      //       end-Method returning an Iterator to element after (!) 
       //      the last element in the List (Aufgabe 3.9)
       return ListIterator<T>{};
     }
@@ -432,6 +432,25 @@ List<T> reverse(List<T> const& list) {
   reversed_list.reverse();
   return reversed_list;
 }
+
+/* ... */
+template <typename T>
+bool has_same_content(List<T> const& list, std::vector<T> const& vec) {
+  if (list.size() != vec.size()) {
+    return false;
+  }
+  else {
+    auto curr_list_element = get_first_pointer(list);
+    for (unsigned i = 0; i < vec.size(); ++i) {
+      if (vec[i] != curr_list_element->value) {
+        return false;
+      }
+      curr_list_element = curr_list_element->next;
+    }
+  }
+  return true;
+}
+
 
 /* ... */
 //TODO: Freie Funktion operator+ (3.10 - Teil 2)

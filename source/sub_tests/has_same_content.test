@@ -1,0 +1,15 @@
+TEST_CASE("test whether List and std::vector have the same contents", "[list_vector_comparison]") {
+    List<int> list{};
+
+    list.push_back(12);
+    list.push_back(-7);
+    list.push_back(11);
+
+    std::vector<int> vec1 = {12, -7, 11};
+    std::vector<int> vec2 = {12, -7, 10};
+    std::vector<int> vec3 = {12, -7, 11, 10};
+
+    REQUIRE(has_same_content(list, vec1));
+    REQUIRE(has_same_content(list, vec2) == false);
+    REQUIRE(has_same_content(list, vec3) == false);
+}
