@@ -5,11 +5,16 @@ TEST_CASE("test whether List and std::vector have the same contents", "[list_vec
     list.push_back(-7);
     list.push_back(11);
 
-    std::vector<int> vec1 = {12, -7, 11};
-    std::vector<int> vec2 = {12, -7, 10};
-    std::vector<int> vec3 = {12, -7, 11, 10};
+    std::vector<int> vec;
 
-    REQUIRE(has_same_content(list, vec1));
-    REQUIRE(has_same_content(list, vec2) == false);
-    REQUIRE(has_same_content(list, vec3) == false);
+    // copy contents of list into vec
+    std::copy(list.begin(), list.end(), std::back_inserter(vec));
+
+    REQUIRE(has_same_content(list, vec));
+
+    // add an additional value to vec
+    vec.push_back(37);
+
+    REQUIRE(has_same_content(list, vec) == false);
+
 }
