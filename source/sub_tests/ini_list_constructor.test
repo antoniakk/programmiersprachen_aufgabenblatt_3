@@ -1,0 +1,9 @@
+TEST_CASE("constructor taking an initializer list as parameter", "[list_constructor]") {
+    List<int> list{19, 7, 44};
+    list.print();
+
+    REQUIRE(3 == list.size());
+    REQUIRE(19 == get_first_pointer(list)->value);
+    REQUIRE(7 == get_first_pointer(list)->next->value);
+    REQUIRE(44 == get_last_pointer(list)->value);
+}

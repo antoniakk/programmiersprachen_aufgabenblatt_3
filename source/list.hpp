@@ -168,8 +168,14 @@ class List {
     //TODO: Initializer-List Konstruktor (3.15 - Teil 1)
     /* ... */
     // test and implement:
-    List(std::initializer_list<T> ini_list) {
-      //not implemented yet
+    List(std::initializer_list<T> ini_list) :
+      size_{0},
+      first_{nullptr},
+      last_{nullptr} {
+        
+        for (auto i : ini_list) {
+          push_back(i);
+      }
     }
 
     /* ... */
@@ -462,7 +468,7 @@ bool has_same_content(List<T> const& list, std::vector<T> const& vec) {
 
 
 /* ... */
-//TODO: Freie Funktion operator+ (3.10 - Teil 2)
+//TODO: Freie Funktion operator+ (3.15 - Teil 2)
 
 
 #endif // # define BUW_LIST_HPP
