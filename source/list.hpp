@@ -19,7 +19,6 @@ struct ListNode {
 
 
 //      Implementierung der Methoden des Iterators 
-//      (nach Vorlesung STL-1 am 09. Juni) (Aufgabe 3.12)
 template <typename T>
 struct ListIterator {
   using Self              = ListIterator<T>;
@@ -30,66 +29,92 @@ struct ListIterator {
   using iterator_category = std::bidirectional_iterator_tag;
 
 
-  /* DESCRIPTION  operator*() */
+  /* 
+    (Aufgabe 3.10 - Teil 1)
+    Implementation of the
+    operator* which dereferences 
+    the pointer which comes after it.
+    It first checks if the pointer is not null.
+    THen, it returns a reference to what 
+    the pointer is pointing at.
+  */
   T&  operator*()  const {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //      remaining implementation of derefenciation of 
-    //      iterator using operator* (Aufgabe 3.12 - Teil 1)
     return node->value;
   } //call *it
 
-  /* DESCRIPTION  operator->() */
+  /* 
+    (Aufgabe 3.10 - Teil 2)
+    Implementation of the
+    operator-> which dereferences 
+    the pointer which comes before it
+    to what comes after it.
+    It first checks if the pointer is not null.
+    Then, it returns a reference to the address 
+    the pointer is pointing at.
+  */
   T* operator->() const {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-    //      remaining implementation of derefenciation of 
-    //      iterator using operator-> (Aufgabe 3.12 - Teil 2)
     return &(node->value);
   }  //call it->method() or it->member
 
 
-  /* PREINCREMENT, call: ++it, advances one element forward */
+  /* 
+    (Aufgabe 3.10 - Teil 3)
+    Implementation of the preincrement operator++
+    which advances one element forwards.
+    It first checks if the current
+    iterator points to a valid node.
+    Next, it updates the node to its next
+    and returns the updated iterator.
+  */
   ListIterator<T>& operator++() {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //      implement Postincrement-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 3)
     node = node->next;
     return *this;    
   }
 
-  /* POSTINCREMENT (signature distinguishes the iterators), 
-                    call:  it++, advances one element forward*/
+  /* 
+    (Aufgabe 3.10 - Teil 4)
+    Implementation of the postincrement operator++
+    which advances one element forwards.
+    It first checks if the current
+    iterator points to a valid node.
+    Next, it updates the node to its next
+    but returns the old version of the iterator.
+  */
   ListIterator<T> operator++(int) {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //      implement Postincrement-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 4)
     auto tmp = *this;
     ++(*this);
     return tmp;  
   }
 
-  /* ... */
+  /* Implement Equality-Operation for Iterator
+    (Aufgabe 3.10 - Teil 5)
+    Iterators should be the same if they refer to the same node.
+    It returns true if the iterators given as parameter has
+    the same node as the iterator which is on the other side.
+  */
   bool operator==(ListIterator<T> const& x) const {
-    // implement Equality-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 5)
-    // Iterators should be the same if they refer to the same node
     return (node == x.node);
   } // call it: == it
 
-  /* ... */
+  /* Implement Inequality-Operation for Iterator  
+    (Aufgabe 3.10 - Teil 6) 
+    If operator== returns false, then operator!=
+    returns true, meaning that two iterators
+    do no refer to the same node.
+   */
   bool operator!=(ListIterator<T> const& x) const {
-    //  implement Inequality-Operation for Iterator  
-    //      (Aufgabe 3.12 - Teil 6)
     return !(*this == x);
   } // call it: != it
 
@@ -101,7 +126,6 @@ struct ListIterator {
       return ListIterator{nullptr};
     }
   }
-
 
   ListNode <T>* node = nullptr;
 };
@@ -119,7 +143,6 @@ class List {
     friend ListNode<TEST_TYPE>* get_first_pointer(List<TEST_TYPE> const& list_to_test);
     template <typename TEST_TYPE>
     friend ListNode<TEST_TYPE>* get_last_pointer(List<TEST_TYPE> const& list_to_test);
-    //TODO: I think you have to add definition of some method here
 
     using value_type      = T;
     using pointer         = T*;
@@ -128,19 +151,30 @@ class List {
     using const_reference = T const&;
     using iterator        = ListIterator<T>;
 
-    // Default constructor with an initialiser list (Aufgabe 3.2)
+
+    // implement default constructor with an initialiser list (Aufgabe 3.2)
+    /* 
+       The default constructor allows for the
+       initialization of lists with default values, i.e
+       with size zero, and first and last nodes
+       being null pointers. 
+       It is called as: "List<T> list" or "List<T> list{}" 
+    */
     List() : 
       size_{0},
       first_{nullptr},
       last_{nullptr} {}
 
-    // TODO: delete this -> Constructor with an initialiser list 
-    List(size_t size, ListNode<T>* first, ListNode<T>* last) : 
-      size_{size},
-      first_{first},
-      last_{last} {}
 
     //implement Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
+    /*
+      The Deep Copy-Constructor allows the
+      initialization of a list which has the
+      same contents as the one passed a parameter.
+      The nodes of the new one point to the same
+      values, however, they do not point to the 
+      same addresses but to new ones.
+    */
     List(List<T> const& list) :
       size_{0},
       first_{nullptr},
@@ -153,8 +187,19 @@ class List {
         }      
     }
 
-    // test and implement:
+    // Tested and implemented:
     // Move-Konstruktor (Aufgabe 3.14)
+    /* 
+      The move-constructor allows for the 
+      initialization of a list with the contents 
+      of an already existing one. It is the most 
+      efficient way to do complete this task, 
+      because it deletes the original list,
+      so it only "moves" from one memory space
+      to another.
+      It uses the so-called rvalue reference to pass
+      the list as parameter to the method.
+    */
     List(List<T>&& rhs) : 
       first_(rhs.first_), 
       last_(rhs.last_),
@@ -166,8 +211,15 @@ class List {
     }
 
     // Initializer-List Konstruktor (3.15 - Teil 1)
-    /* ... */
-    // test and implement:
+    /* 
+      This constructor allows for the 
+      initialization of a list with 
+      initially given values which are passed in
+      curly brackets. It is used like this:
+        "List<T> list{T1, T2, ...}"
+      or like this:
+        "List<T> list = {T1, T2, ...}".
+    */
     List(std::initializer_list<T> ini_list) :
       size_{0},
       first_{nullptr},
@@ -178,18 +230,42 @@ class List {
       }
     }
 
-    /* ... */
     // test and implement:
     //(unifying) Assignment operator (Aufgabe 3.6)
-
+    /* 
+      This operator implicitly calls 
+      the deep copy constructor and
+      makes a copy of the righy hand side
+      which is passed as parameter.
+      It is not passed by const reference
+      because we use the method swap()
+      which is making alteraiton to it.
+      After calling swap(), the left hand
+      side contains all elements of rhs and
+      is returned by the function, while
+      the destructor is implicitly called
+      to take care of rhs.
+    */
     List<T>& operator=(List<T> rhs) {
       swap(rhs);
       return *this;
     }
 
-    /* ... */
-    // test and implement:
+    /* 
+      Bool operators for (in)equality are 
+      overloaded to be used with lists.
+      
+      1) operator== checks whether 
+      the contents of two lists are semantically 
+      the same. The right hand side is passed as 
+      a parameter using const reference. It returns
+      true when the contents are the same.
 
+      2) operator!= uses the implemened
+      operator== and returns true when
+      operator== returns false, i.e.
+      the contents are not the same.
+    */
     bool operator==(List<T> const& rhs)
     {
       //overload operator== (Aufgabe 3.8)
@@ -216,13 +292,20 @@ class List {
       return !(*this == rhs);
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.4)
+      A destructor which uses the method clear()
+      to delete an existing list
+      when it is explicitly called
+      or implicitly called when the
+      life span of a list ends.
+     */
     ~List() {
-      // Implement destructor via clear-Method (Aufgabe 3.4)
       clear();
     } //cannot really be tested
 
-    /* print() member function to help with testing the other tasks*/
+    /* Implemented print() member function 
+       to help with testing the other tasks */
     void print() const {
       auto tmp = first_;
       while (tmp != nullptr) {
@@ -232,44 +315,71 @@ class List {
       std::cout << "\n";
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.9)
+      A begin() method which returns an iterator
+      which contains a node pointing
+      to the first element in the list.
+    */
     ListIterator<T> begin() {
-      //      begin-Method returning an Iterator to the 
-      //      first element in the List (Aufgabe 3.9)
       return ListIterator<T>{first_};
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.9)
+      An end() method which returns an iterator
+      which contains a node pointing
+      to the last element in the list.
+    */
     ListIterator<T> end() {
-      //       end-Method returning an Iterator to element after (!) 
-      //      the last element in the List (Aufgabe 3.9)
       return ListIterator<T>{};
     }
 
-    /* ... */
+    /*
+      A const begin() method. 
+      It is useful when a parameter
+      which is passed by const reference
+      needs to use begin().
+      It is used in Task 3.15.
+    */ 
     ListIterator<T> begin() const {
-      //      begin-Method returning an Iterator to the 
-      //      first element in the List (Aufgabe 3.9)
       return ListIterator<T>{first_};
     }
 
-    /* ... */
+    /*
+      A const end() method. 
+      It is useful when a parameter
+      which is passed by const reference
+      needs to use end().
+      It is used in Task 3.15.
+    */ 
     ListIterator<T> end() const {
-      //       end-Method returning an Iterator to element after (!) 
-      //      the last element in the List (Aufgabe 3.9)
       return ListIterator<T>{};
     }
 
-    /* ... */ 
-    //Implement clear()-Method (Aufgabe 3.4)
+    /* 
+      (Aufgabe 3.4) 
+      A puclic member function 
+      which deletes the contents
+      of a list by calling the 
+      method pop_front() the 
+      necessary amount of times
+      until the list is empty.
+    */ 
     void clear() {
       while(!empty()) {
         pop_front();
       }
     }
 
-    /* ... */
-    //implement member function insert (Aufgabe 3.11)
+    /* 
+      (Aufgabe 3.11)
+      The method takes an iterator to a certain position
+      and a const reference to an element of type T.
+      The element is inserted before the node at the given position.
+      If the given node is the fist one, then push_front() is used.
+      The method returns an iterator to the newly inserted node.
+    */
     ListIterator<T> insert(ListIterator<T> position, T const& new_element) {
       if (position == begin()) {
         push_front(new_element);
@@ -284,8 +394,15 @@ class List {
       }
     }
 
-    /* ... */
-    //implement member function erase (Aufgabe 3.12)
+    /* 
+      (Aufgabe 3.12)
+      The method takes an iterator to a certain position
+      and a erases the node at that position.
+      If the given node is the fist one or the back one,
+      then pop_front() or pop_back() are used respectively.
+      The method returns an iterator the the node
+      after the recently erased node.
+    */
     ListIterator<T> erase(ListIterator<T> position) {
       auto next_element = position.node->next;
       if (begin() == position) {
@@ -306,12 +423,18 @@ class List {
       }
     }
 
-    /* ... */
-    //implement member function reverse (Aufgabe 3.7 - Teil 1)
+    // implement member function reverse (Aufgabe 3.7 - Teil 1)
+    /*
+      When it is called with a 
+      given list, it changes its
+      elements' order by reversing
+      it, i.e the first element becomes
+      last, the second element becomes previous
+      of the first (which is now last) and so on..
+      It uses an auxiliary swap() method which
+      swaps two variables of type ListNode<T>*&.
+    */
     void reverse() {
-      if(0 == size_) {
-        throw "List is empty!";
-      }
       auto current_element = first_;
       while(current_element != nullptr) {
         auto curr_next = current_element->next;
@@ -322,10 +445,16 @@ class List {
     }
 
 
-    /* ... */
-    void push_front(T const& element) {
-      // implement push_front-method (Aufgabe 3.3)
-     
+    /* 
+      (Aufgabe 3.3)
+      A public member function of type void.
+      It takes a parameter of type T which
+      is passed by const reference. 
+      It creates a new node with this value and
+      adds it before the current front element
+      of the list with which the method is called.    
+    */
+    void push_front(T const& element) {     
       ListNode<T>* new_element = new ListNode<T>{element};
       if (empty()) {
         new_element->next = nullptr;
@@ -340,10 +469,16 @@ class List {
       ++size_;
     }
 
-    /* ... */
-    void push_back(T const& element) {
-      // implement push_back-method (Aufgabe 3.3)
-     
+    /* 
+      (Aufgabe 3.3)
+      A public member function of type void.
+      It takes a parameter of type T which
+      is passed by const reference. 
+      It creates a new node with this value and
+      adds it after the current back element
+      of the list with which the method is called.    
+    */
+    void push_back(T const& element) {     
       ListNode<T>* new_element = new ListNode<T>{element}; 
       if (empty()) {
         new_element->prev = nullptr;
@@ -358,10 +493,16 @@ class List {
       ++size_;
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.3)
+      A public member function of type void. 
+      It removes the node which is currently
+      the front element in the list with which
+      the method is called. 
+      It checks if the list is empty. If yes,
+      it throws an exception.
+    */
     void pop_front() {   
-      // implement pop_front-method (Aufgabe 3.3)
-
       if(empty()) {
         throw "List is empty";
       }
@@ -379,10 +520,16 @@ class List {
       --size_;
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.3)
+      A public member function of type void. 
+      It removes the node which is currently
+      the back element in the list with which
+      the method is called. 
+      It checks if the list is empty. If yes,
+      it throws an exception.
+    */
     void pop_back() { 
-      // implement pop_back-method (Aufgabe 3.3)
-
       if(empty()) {
         throw "List is empty";
       }
@@ -400,33 +547,64 @@ class List {
       --size_;
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.3) 
+      A public member function which
+      allows accessing the value of the
+      first element in a list by dereferencing
+      the private variable first_ to its value
+      and returning a reference to an element
+      of type T. 
+      It first checks if a list is empty and
+      throws the necessart exception.    
+    */
     T& front() {
       if(empty()) {
         throw "List is empty";
       }
       return first_->value;
-      // Omplement front-method (Aufgabe 3.3)
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.3) 
+      A public member function which
+      allows accessing the value of the
+      last element in a list by dereferencing
+      the private variable last_ to its value
+      and returning a reference to an element
+      of type T. 
+      It first checks if a list is empty and
+      throws the necessart exception.    
+    */
     T& back() {
       if(empty()) {
         throw "List is empty";
       }
       return last_->value;
-      // Implement back-method (Aufgabe 3.3)
     }
 
-    /* ... */
+    /* 
+      (Aufgabe 3.2)
+      A public member method which shows if a
+      list is empty or not, i.e. if its
+      size is zero or not.
+      It is of type bool and returns true 
+      for empty and false otherwise.
+    */
     bool empty() const {
-      return (0 == size_);  // return if the list is empty (Aufgabe 3.2)
+      return (0 == size_);  
     };
 
 
-    /* ... */
+    /* 
+      (Aufgabe 3.2) 
+      A public member method which allows 
+      the size of the list to be accessed
+      by returning the private variable
+      size_.
+    */
     std::size_t size() const {
-      return size_;     // return the size of the list (Aufgabe 3.2)
+      return size_;  
     };
 
 
@@ -438,7 +616,6 @@ class List {
     };
 
     /* ... */
-    // TODO: delete this and use std::swap instead
     void swap(ListNode<T>*& node1, ListNode<T>*& node2) {
       auto tmp = node1;
       node1 = node2;
@@ -452,9 +629,15 @@ class List {
     ListNode<T>* last_;
 };
 
-/* ... */
 //Freie Funktion reverse 
-//(Aufgabe 3.7 - Teil 2, benutzt Member-Funktion reverse)
+//(Aufgabe 3.7 - Teil 2)
+/*
+  The free function uses the member function
+  reverse(). It takes a list as a parameter. It doesn't make
+  changes to the original list (hence the const reference)
+  but creates a new list by calling the copy constructor.
+  Then reverse() is called on the new_list and it is returned.
+*/
 template <typename T>
 List<T> reverse(List<T> const& list) {
   auto reversed_list{list};
@@ -462,7 +645,17 @@ List<T> reverse(List<T> const& list) {
   return reversed_list;
 }
 
-/* ... */
+/* 
+  (Aufgabe 3.13)
+  The method takes two parameters by const
+  reference - a list and an std::vector,
+  and checks whether they have the same elements.
+  If their sizes are different, then they it
+  directly returns false.
+  The method is used in tests.cpp to test
+  whether std::copy copies the elements
+  from a list to a vector correctly.
+*/
 template <typename T>
 bool has_same_content(List<T> const& list, std::vector<T> const& vec) {
   if (list.size() != vec.size()) {
@@ -481,8 +674,19 @@ bool has_same_content(List<T> const& list, std::vector<T> const& vec) {
 }
 
 
-/* ... */
-//TODO: Freie Funktion operator+ (3.15 - Teil 2)
+// Freie Funktion operator+ (3.15 - Teil 2)
+/*
+  This free function allows for the 
+  concatenation of two lists.
+  It takes two parameters as const reference -
+  the left hand side and the right hand side.
+  It creates a copy of the lhs and 
+  iterates through the rhs with a range
+  for-loop. Using the method push_back()
+  it inserts all elements of the rhs, 
+  resulting in a new concatenated list.
+  Finally the new list is returned.
+*/
 template <typename T>
 List<T> operator+(List<T> const& lhs, List<T> const& rhs) {
   List<T> concat_list{lhs};
