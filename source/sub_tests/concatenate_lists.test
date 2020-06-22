@@ -1,0 +1,12 @@
+TEST_CASE("test concatination of two lists", "[list_operator+]") {
+    List<int> list1{12, 34, 5, 66};
+    List<int> list2{8, 0, 2};
+    auto list3 = list1 + list2;
+    
+    REQUIRE(7 == list3.size());
+    REQUIRE(12 == get_first_pointer(list3)->value);
+    REQUIRE(34 == get_first_pointer(list3)->next->value);
+    REQUIRE(0 == get_last_pointer(list3)->prev->value);
+    REQUIRE(2 == get_last_pointer(list3)->value);
+
+}
