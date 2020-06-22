@@ -608,14 +608,27 @@ class List {
     };
 
 
-    /* ... */
-    // implement auxiliary swap() overloaded function
+    /* 
+      Implementation of an auxiliary swap() 
+      overloaded function which is used
+      in Task 3.6 for the unifying
+      assignment operator.
+      It swaps the first and last nodes 
+      of the lhs with those of the rhs
+      and thus takes the information
+      about all elements of rhs.
+    */
     void swap(List<T>& rhs) {
       std::swap(first_, rhs.first_);
       std::swap(last_, rhs.last_);
     };
 
-    /* ... */
+    /* 
+      Implementation of an auxiliary swap() 
+      overloaded function which is used
+      in Task 3.7 for the reverse method().
+      It swaps the given nodes.
+    */
     void swap(ListNode<T>*& node1, ListNode<T>*& node2) {
       auto tmp = node1;
       node1 = node2;
