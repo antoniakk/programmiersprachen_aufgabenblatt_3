@@ -70,6 +70,9 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 //test the initializer list constructor
 #include "sub_tests/ini_list_constructor.test"
 
+//test the free function operator+ for lists
+#include "sub_tests/concatinate_lists.test"
+
 
 int main(int argc, char *argv[])
 {

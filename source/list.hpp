@@ -165,7 +165,7 @@ class List {
         rhs.size_  = 0;
     }
 
-    //TODO: Initializer-List Konstruktor (3.15 - Teil 1)
+    // Initializer-List Konstruktor (3.15 - Teil 1)
     /* ... */
     // test and implement:
     List(std::initializer_list<T> ini_list) :
@@ -241,6 +241,20 @@ class List {
 
     /* ... */
     ListIterator<T> end() {
+      //       end-Method returning an Iterator to element after (!) 
+      //      the last element in the List (Aufgabe 3.9)
+      return ListIterator<T>{};
+    }
+
+    /* ... */
+    ListIterator<T> begin() const {
+      //      begin-Method returning an Iterator to the 
+      //      first element in the List (Aufgabe 3.9)
+      return ListIterator<T>{first_};
+    }
+
+    /* ... */
+    ListIterator<T> end() const {
       //       end-Method returning an Iterator to element after (!) 
       //      the last element in the List (Aufgabe 3.9)
       return ListIterator<T>{};
@@ -469,6 +483,13 @@ bool has_same_content(List<T> const& list, std::vector<T> const& vec) {
 
 /* ... */
 //TODO: Freie Funktion operator+ (3.15 - Teil 2)
-
+template <typename T>
+List<T> operator+(List<T> const& lhs, List<T> const& rhs) {
+  List<T> concat_list{lhs};
+  for (auto const& i : rhs) {
+    concat_list.push_back(i);
+  }
+  return concat_list;
+}
 
 #endif // # define BUW_LIST_HPP
